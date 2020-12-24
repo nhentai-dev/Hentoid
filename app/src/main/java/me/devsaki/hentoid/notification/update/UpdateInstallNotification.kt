@@ -4,12 +4,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.webkit.MimeTypeMap
 import androidx.core.app.NotificationCompat
 import me.devsaki.hentoid.R
-import me.devsaki.hentoid.receiver.InstallRunReceiver
-import me.devsaki.hentoid.util.ApkInstall
+import me.devsaki.hentoid.activities.PrefsActivity
+import me.devsaki.hentoid.activities.bundles.PrefsActivityBundle
 import me.devsaki.hentoid.util.notification.Notification
 
 
@@ -18,7 +17,7 @@ private val APK_MIMETYPE = MimeTypeMap.getSingleton().getMimeTypeFromExtension("
 class UpdateInstallNotification(private val apkUri: Uri) : Notification {
 
     override fun onCreateNotification(context: Context): android.app.Notification {
-        val pendingIntent = getIntent(context)
+//        val pendingIntent = getIntent(context)
 
         return NotificationCompat.Builder(context, UpdateNotificationChannel.ID)
                 .setSmallIcon(R.drawable.ic_hentoid_shape)
@@ -27,10 +26,21 @@ class UpdateInstallNotification(private val apkUri: Uri) : Notification {
                 .setVibrate(longArrayOf(1, 1, 1))
                 .setContentTitle(context.resources.getText(R.string.update_ready))
                 .setContentText(context.resources.getText(R.string.tap_to_install))
-                .setContentIntent(pendingIntent)
+                .setContentIntent(getDefaultIntent(context))
                 .build()
     }
 
+    private fun getDefaultIntent(context: Context): PendingIntent {
+        val resultIntent = Intent(context, PrefsActivity::class.java)
+        resultIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+        val builder = PrefsActivityBundle.Builder()
+        builder.setInstallApkUri(apkUri.toString())
+        resultIntent.putExtras(builder.bundle)
+
+        return PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+/*
     private fun getIntent(context: Context): PendingIntent {
         val intent: Intent
 
@@ -54,4 +64,5 @@ class UpdateInstallNotification(private val apkUri: Uri) : Notification {
             PendingIntent.getActivity(context, 0, intent, 0)
         }
     }
+ */
 }

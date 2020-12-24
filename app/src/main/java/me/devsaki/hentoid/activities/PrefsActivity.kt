@@ -1,5 +1,6 @@
 package me.devsaki.hentoid.activities
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -9,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import me.devsaki.hentoid.R
 import me.devsaki.hentoid.activities.bundles.PrefsActivityBundle
 import me.devsaki.hentoid.events.ProcessEvent
+import me.devsaki.hentoid.fragments.preferences.InstallFragment
 import me.devsaki.hentoid.fragments.preferences.PreferenceFragment
 import me.devsaki.hentoid.util.FileHelper
 import org.greenrobot.eventbus.EventBus
@@ -17,13 +19,21 @@ import org.greenrobot.eventbus.ThreadMode
 
 class PrefsActivity : BaseActivity() {
 
+    private lateinit var installApkUri: Uri
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var rootKey: String? = null
-        if (isViewerPrefs()) rootKey = "viewer"
-        else if (isDownloaderPrefs()) rootKey = "downloader"
-        val fragment = PreferenceFragment.newInstance(rootKey)
+        val fragment =
+                if (isInstall()) {
+                    installApkUri = Uri.parse(PrefsActivityBundle.Parser(intent.extras!!).installApkUri)
+                    InstallFragment()
+                } else {
+                    var rootKey: String? = null
+                    if (isViewerPrefs()) rootKey = "viewer"
+                    else if (isDownloaderPrefs()) rootKey = "downloader"
+                    PreferenceFragment.newInstance(rootKey)
+                }
 
         supportFragmentManager.commit {
             replace(android.R.id.content, fragment)
@@ -44,6 +54,17 @@ class PrefsActivity : BaseActivity() {
             val parser = PrefsActivityBundle.Parser(intent.extras!!)
             parser.isDownloaderPrefs
         } else false
+    }
+
+    private fun isInstall(): Boolean {
+        return if (intent.extras != null) {
+            val parser = PrefsActivityBundle.Parser(intent.extras!!)
+            parser.isInstall
+        } else false
+    }
+
+    fun getInstallApkUri(): Uri {
+        return installApkUri
     }
 
     override fun onDestroy() {

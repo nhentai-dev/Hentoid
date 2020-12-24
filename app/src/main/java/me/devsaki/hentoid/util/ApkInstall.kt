@@ -1,12 +1,17 @@
 package me.devsaki.hentoid.util
 
+import android.app.Application
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo.INSTALL_LOCATION_AUTO
 import android.content.pm.PackageInstaller
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.devsaki.hentoid.receiver.InstallCompletedReceiver
 
 /*
@@ -28,15 +33,21 @@ import me.devsaki.hentoid.receiver.InstallCompletedReceiver
 private const val NAME = "mostly-unused"
 private const val PI_INSTALL = 3439
 
-class ApkInstall {
+class ApkInstall(app: Application) : AndroidViewModel(app) {
 
-    fun install(app: Context, apkUri: Uri) {
-        val installer = app.packageManager.packageInstaller
-        val resolver = app.contentResolver
+    private val installer = app.packageManager.packageInstaller
+    private val resolver = app.contentResolver
 
+    fun install(apkUri: Uri) {
+        viewModelScope.launch(Dispatchers.Main) {
+            installCoroutine(apkUri)
+        }
+    }
+
+    private suspend fun installCoroutine(apkUri: Uri) = withContext(Dispatchers.IO) {
         resolver.openInputStream(apkUri)?.use { apkStream ->
             val length =
-                    DocumentFile.fromSingleUri(app, apkUri)?.length() ?: -1
+                    DocumentFile.fromSingleUri(getApplication(), apkUri)?.length() ?: -1
             val params =
                     PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
             params.setInstallLocation(INSTALL_LOCATION_AUTO)
@@ -48,9 +59,9 @@ class ApkInstall {
                 session.fsync(sessionStream)
             }
 
-            val intent = Intent(app, InstallCompletedReceiver::class.java)
+            val intent = Intent(getApplication(), InstallCompletedReceiver::class.java)
             val pi = PendingIntent.getBroadcast(
-                    app,
+                    getApplication(),
                     PI_INSTALL,
                     intent,
                     PendingIntent.FLAG_UPDATE_CURRENT

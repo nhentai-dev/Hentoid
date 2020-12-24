@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 public class PrefsActivityBundle {
     private static final String KEY_IS_VIEWER_PREFS = "isViewer";
     private static final String KEY_IS_DOWNLOADER_PREFS = "isDownloader";
+    private static final String KEY_INSTALL_APK_URI = "installApkUri";
 
     private PrefsActivityBundle() {
         throw new UnsupportedOperationException();
@@ -28,6 +29,10 @@ public class PrefsActivityBundle {
 
         public void setIsDownloaderPrefs(boolean isDownloaderPrefs) {
             bundle.putBoolean(KEY_IS_DOWNLOADER_PREFS, isDownloaderPrefs);
+        }
+
+        public void setInstallApkUri(String uri) {
+            bundle.putString(KEY_INSTALL_APK_URI, uri);
         }
 
         public Bundle getBundle() {
@@ -49,6 +54,14 @@ public class PrefsActivityBundle {
 
         public boolean isDownloaderPrefs() {
             return bundle.getBoolean(KEY_IS_DOWNLOADER_PREFS, false);
+        }
+
+        public boolean isInstall() {
+            return bundle.containsKey(KEY_INSTALL_APK_URI);
+        }
+
+        public String getInstallApkUri() {
+            return bundle.getString(KEY_INSTALL_APK_URI, "");
         }
     }
 }
