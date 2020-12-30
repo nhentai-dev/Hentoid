@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import me.devsaki.hentoid.HentoidApp;
 import me.devsaki.hentoid.database.domains.Content;
 import me.devsaki.hentoid.database.domains.ImageFile;
 import me.devsaki.hentoid.enums.Site;
@@ -34,6 +35,7 @@ import me.devsaki.hentoid.json.sources.EHentaiImageQuery;
 import me.devsaki.hentoid.json.sources.EHentaiImageResponse;
 import me.devsaki.hentoid.parsers.ParseHelper;
 import me.devsaki.hentoid.util.JsonHelper;
+import me.devsaki.hentoid.util.LogUtil;
 import me.devsaki.hentoid.util.exception.EmptyResultException;
 import me.devsaki.hentoid.util.exception.LimitReachedException;
 import me.devsaki.hentoid.util.exception.PreparationInterruptedException;
@@ -270,6 +272,7 @@ public class EHentaiParser implements ImageListParser {
         MpvInfo result = null;
         Document doc = getOnlineDocument(url, headers, useHentoidAgent);
         if (doc != null) {
+            LogUtil.writeLog(HentoidApp.getInstance(), doc.body().toString().getBytes(), "multipage");
             List<Element> scripts = doc.select("script");
             for (Element script : scripts) {
                 String scriptStr = script.toString();

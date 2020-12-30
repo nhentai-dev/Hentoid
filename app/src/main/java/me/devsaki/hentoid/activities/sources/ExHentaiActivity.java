@@ -81,19 +81,6 @@ public class ExHentaiActivity extends BaseWebActivity {
             showTooltip(R.string.help_web_exh_account, false);
         }
 
-        private void logCookies(@NonNull final String prefix, @NonNull final String cookieStr) {
-            try {
-                DocumentFile root = FileHelper.getFolderFromTreeUriString(getApplication(), Preferences.getStorageUri());
-                if (root != null) {
-                    DocumentFile cookiesLog = FileHelper.findOrCreateDocumentFile(getApplication(), root, "text/plain", "cookies_" + prefix + "_log.txt");
-                    if (cookiesLog != null)
-                        FileHelper.saveBinary(getApplication(), cookiesLog.getUri(), cookieStr.getBytes());
-                }
-            } catch (IOException e) {
-                Timber.e(e);
-            }
-        }
-
         // We keep calling the API without using BaseWebActivity.parseResponse
         @Override
         protected WebResourceResponse parseResponse(@NonNull String urlStr, @Nullable Map<String, String> requestHeaders, boolean analyzeForDownload, boolean quickDownload) {

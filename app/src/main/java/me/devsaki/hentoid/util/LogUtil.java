@@ -11,6 +11,7 @@ import com.annimon.stream.Stream;
 
 import org.threeten.bp.Instant;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -132,5 +133,18 @@ public class LogUtil {
         }
 
         return null;
+    }
+
+    public static void writeLog(@Nonnull Context context, @Nonnull byte[] content, @NonNull String name) {
+        try {
+            DocumentFile root = FileHelper.getFolderFromTreeUriString(context, Preferences.getStorageUri());
+            if (root != null) {
+                DocumentFile cookiesLog = FileHelper.findOrCreateDocumentFile(context, root, "text/plain", name + "_log.txt");
+                if (cookiesLog != null)
+                    FileHelper.saveBinary(context, cookiesLog.getUri(), content);
+            }
+        } catch (IOException e) {
+            Timber.e(e);
+        }
     }
 }
