@@ -194,13 +194,13 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "https://nhentai.net/g/" -->
+                <!-- Accepts URIs that begin with "https://nhentai.unblock.my.id/g/" -->
                 <data
-                    android:host="nhentai.net"
+                    android:host="nhentai.unblock.my.id"
                     android:pathPrefix="/g/"
                     android:scheme="https" />
                 <data
-                    android:host="www.nhentai.net"
+                    android:host="www.nhentai.unblock.my.id"
                     android:pathPrefix="/g/"
                     android:scheme="https" />
             </intent-filter>

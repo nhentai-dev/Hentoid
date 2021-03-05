@@ -31,7 +31,7 @@ public class NhentaiParser extends BaseImageListParser {
     public static List<String> parseImages(@NonNull Content content, @NonNull List<Element> thumbs) {
         String[] coverParts = content.getCoverImageUrl().split("/");
         String mediaId = coverParts[coverParts.length - 2];
-        String serverUrl = "https://i.nhentai.net/galleries/" + mediaId + "/"; // We infer the whole book is stored on the same server
+        String serverUrl = "https://i-nhentai.unblock.my.id/galleries/" + mediaId + "/"; // We infer the whole book is stored on the same server
 
         List<String> result = new ArrayList<>();
 

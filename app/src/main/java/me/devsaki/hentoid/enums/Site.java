@@ -17,7 +17,7 @@ public enum Site {
     FAKKU(0, "Fakku", "https://www.fakku.net", R.drawable.ic_menu_fakku), // Legacy support for old fakku archives
     PURURIN(1, "Pururin", "https://pururin.io", R.drawable.ic_menu_pururin),
     HITOMI(2, "hitomi", "https://hitomi.la", R.drawable.ic_menu_hitomi, false, false, false, false), // Hitomi needs a desktop agent to properly display gallery images on some devices
-    NHENTAI(3, "nhentai", "https://nhentai.net", R.drawable.ic_menu_nhentai, true, true, false, false),
+    NHENTAI(3, "nhentai", "https://nhentai.unblock.my.id", R.drawable.ic_menu_nhentai, true, true, false, false),
     TSUMINO(4, "tsumino", "https://www.tsumino.com", R.drawable.ic_menu_tsumino, true, true, false, false),
     HENTAICAFE(5, "hentaicafe", "https://hentai.cafe", R.drawable.ic_menu_hentaicafe, true, true, false, false),
     ASMHENTAI(6, "asmhentai", "https://asmhentai.com", R.drawable.ic_menu_asmhentai, true, true, false, false),

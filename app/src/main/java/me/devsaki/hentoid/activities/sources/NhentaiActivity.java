@@ -15,9 +15,9 @@ import me.devsaki.hentoid.util.network.HttpHelper;
  */
 public class NhentaiActivity extends BaseWebActivity {
 
-    private static final String DOMAIN_FILTER = "nhentai.net";
-    private static final String[] GALLERY_FILTER = {"nhentai.net/g/", "nhentai.net/search/\\?q=[%0-9]+$"};
-    private static final String[] RESULTS_FILTER = {"//nhentai.net[/]*$", "//nhentai.net/\\?", "//nhentai.net/search/\\?", "//nhentai.net/(character|artist|parody|tag|group)/"};
+    private static final String DOMAIN_FILTER = "nhentai.unblock.my.id";
+    private static final String[] GALLERY_FILTER = {"nhentai.unblock.my.id/g/", "nhentai.unblock.my.id/search/\\?q=[%0-9]+$"};
+    private static final String[] RESULTS_FILTER = {"//nhentai.unblock.my.id[/]*$", "//nhentai.unblock.my.id/\\?", "//nhentai.unblock.my.id/search/\\?", "//nhentai.unblock.my.id/(character|artist|parody|tag|group)/"};
     private static final String[] BLOCKED_CONTENT = {"popunder"};
     private static final String[] DIRTY_ELEMENTS = {"section.advertisement"};
 
