@@ -5,7 +5,7 @@
 
 ## This is just a proxy for nh! this version support just nh for now!
 
-> this just a fork!
+> this is just a fork!
 ___
 
 [![Download](https://img.shields.io/badge/GET-the%20APK-brightgreen.svg)](https://github.com/avluis/Hentoid/releases/latest)
